@@ -109,6 +109,27 @@ public class TimeDAO {
         throw new SQLException("Time não encontrado: " + nome); // Lança exceção se não encontrado
     }
     
+    public Time getTimeById(int id) throws SQLException {
+    String query = "SELECT * FROM times WHERE id = ?";
+    try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        stmt.setInt(1, id);
+        try (ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                Time time = new Time();
+                time.setId(rs.getInt("id"));
+                time.setNome(rs.getString("nome"));
+                time.setCidade(rs.getString("cidade"));
+                time.setEstado(rs.getString("estado"));
+                time.setAnoFundacao(rs.getInt("ano_fundacao"));
+                time.setTecnico(rs.getString("tecnico"));
+                time.setVitorias(rs.getInt("vitorias"));
+                return time;
+            }
+        }
+    }
+    throw new SQLException("Time não encontrado com ID: " + id);
+}
+    
         // Método para adicionar vitórias a um time
     public void adicionarVitoria(int timeId) throws SQLException {
         String sql = "UPDATE times SET vitorias = vitorias + 1 WHERE id = ?";

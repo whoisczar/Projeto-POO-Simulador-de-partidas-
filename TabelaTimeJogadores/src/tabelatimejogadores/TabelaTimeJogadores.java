@@ -13,10 +13,15 @@ import MODEL.Jogo;      // Ajuste o caminho conforme necessário
 import DAO.TimeDAO;
 import DAO.JogadorDAO;
 import DAO.JogoDAO;  // Certifique-se de que você tem uma classe JogoDAO
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
@@ -49,11 +54,23 @@ public class TabelaTimeJogadores extends JFrame {
 
     public TabelaTimeJogadores() {
         setTitle("Times e Jogadores");
-        setSize(600, 600);
+
+        setPreferredSize(new Dimension(600, 600));
+
+        setMaximumSize(new Dimension(600, 600));
+
+        setMinimumSize(new Dimension(300, 300)); // Adjust as needed
+
+        // Tornar a janela não redimensionável
+        setResizable(false);
+
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
         initializeDatabase();
         initializeUI();
+
+        pack(); // Ensure the frame sizes itself based on components
     }
 
     private void initializeDatabase() {
@@ -145,7 +162,6 @@ public class TabelaTimeJogadores extends JFrame {
         tableJogos.getColumnModel().getColumn(4).setPreferredWidth(110); // Resultado
 
         JButton btnAddJogo = new JButton("Adicionar Jogo");
-        JButton btnEditJogo = new JButton("Editar Jogo");
         JButton btnDeleteJogo = new JButton("Deletar Jogo");
 
         btnAddJogo.addActionListener(this::addJogo);
@@ -167,6 +183,17 @@ public class TabelaTimeJogadores extends JFrame {
     private void loadTimes() {
         try {
             List<Time> times = timeDAO.read();
+
+            // Verifica se a lista de times está vazia
+            if (times == null || times.isEmpty()) {
+                System.out.println("Nenhum time encontrado.");
+                return;
+            }
+
+            // Ordena os times em ordem decrescente de vitórias
+            times.sort(Comparator.comparingInt(Time::getVitorias).reversed());
+
+            // Agora carrega os times na tabela
             tableModelTimes.setRowCount(0); // Limpa a tabela
             for (Time time : times) {
                 Object[] row = {
@@ -176,13 +203,13 @@ public class TabelaTimeJogadores extends JFrame {
                     time.getTecnico(),
                     time.getVitorias()
                 };
-                System.out.println(time.getVitorias());
                 tableModelTimes.addRow(row); // Adiciona a linha na tabela
             }
             System.out.println("Times carregados com sucesso!");
+
         } catch (SQLException e) {
-            e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Erro ao carregar times.", "Erro", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
     }
 
@@ -508,93 +535,93 @@ public class TabelaTimeJogadores extends JFrame {
             JOptionPane.showMessageDialog(this, "Por favor, selecione um jogador para deletar.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
-private void addJogo(ActionEvent e) {
-    try {
-        // Obter times
-        TimeDAO timeDAO = new TimeDAO(connection);
-        List<Time> times = timeDAO.read();
-        if (times.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Não há times cadastrados.", "Erro", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
 
-        // Selecionar times
-        JComboBox<String> comboTimeA = new JComboBox<>();
-        JComboBox<String> comboTimeB = new JComboBox<>();
-        times.forEach(time -> {
-            comboTimeA.addItem(time.getNome());
-            comboTimeB.addItem(time.getNome());
-        });
-
-        JPanel panel = new JPanel();
-        panel.add(new JLabel("Time A:"));
-        panel.add(comboTimeA);
-        panel.add(new JLabel("Time B:"));
-        panel.add(comboTimeB);
-
-        if (JOptionPane.showConfirmDialog(this, panel, "Adicionar Jogo", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE) != JOptionPane.OK_OPTION) {
-            return; // Se o usuário cancelar, saia.
-        }
-
-        String timeANome = (String) comboTimeA.getSelectedItem();
-        String timeBNome = (String) comboTimeB.getSelectedItem();
-
-        if (timeANome.equals(timeBNome)) {
-            JOptionPane.showMessageDialog(this, "Escolha dois times diferentes.", "Erro", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        // Simular pontuação dos times
-        int scoreA = (int) (Math.random() * 6);
-        int scoreB = (int) (Math.random() * 6);
-        String ganhador = scoreA > scoreB ? timeANome : scoreA < scoreB ? timeBNome : "Empate";
-
-        // Captura a data e hora atuais usando LocalDateTime
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        String formattedDate = now.format(formatter); // Formata a data
-
-        // Mostra o resultado
-        String resultadoFinal = ganhador + " (" + Math.max(scoreA, scoreB) + " - " + Math.min(scoreA, scoreB) + ")";
-        JOptionPane.showMessageDialog(this, resultadoFinal, "Resultado do Jogo", JOptionPane.INFORMATION_MESSAGE);
-        
-        // Define os IDs dos times
-        int timeAId = getTimeIdByName(timeANome);
-        int timeBId = getTimeIdByName(timeBNome);
-
-        // Adiciona vitória ao time vencedor, se houver
-        if (!ganhador.equals("Empate")) {
-            if (ganhador.equals(timeANome)) {
-                timeDAO.adicionarVitoria(timeAId);
-                simularGols(timeAId, timeBId, scoreA, scoreB); // Chama a distribuição de gols para o time A
-            } else {
-                timeDAO.adicionarVitoria(timeBId);
-                simularGols(timeBId, timeAId, scoreB, scoreA); // Chama a distribuição de gols para o time B
+    private void addJogo(ActionEvent e) {
+        try {
+            // Obter times
+            TimeDAO timeDAO = new TimeDAO(connection);
+            List<Time> times = timeDAO.read();
+            if (times.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Não há times cadastrados.", "Erro", JOptionPane.WARNING_MESSAGE);
+                return;
             }
+
+            // Selecionar times
+            JComboBox<String> comboTimeA = new JComboBox<>();
+            JComboBox<String> comboTimeB = new JComboBox<>();
+            times.forEach(time -> {
+                comboTimeA.addItem(time.getNome());
+                comboTimeB.addItem(time.getNome());
+            });
+
+            JPanel panel = new JPanel();
+            panel.add(new JLabel("Time A:"));
+            panel.add(comboTimeA);
+            panel.add(new JLabel("Time B:"));
+            panel.add(comboTimeB);
+
+            if (JOptionPane.showConfirmDialog(this, panel, "Adicionar Jogo", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE) != JOptionPane.OK_OPTION) {
+                return; // Se o usuário cancelar, saia.
+            }
+
+            String timeANome = (String) comboTimeA.getSelectedItem();
+            String timeBNome = (String) comboTimeB.getSelectedItem();
+
+            if (timeANome.equals(timeBNome)) {
+                JOptionPane.showMessageDialog(this, "Escolha dois times diferentes.", "Erro", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // Simular pontuação dos times
+            int scoreA = (int) (Math.random() * 6);
+            int scoreB = (int) (Math.random() * 6);
+            String ganhador = scoreA > scoreB ? timeANome : scoreA < scoreB ? timeBNome : "Empate";
+
+            // Captura a data e hora atuais usando LocalDateTime
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String formattedDate = now.format(formatter); // Formata a data
+
+            // Mostra o resultado
+            String resultadoFinal = ganhador + " (" + Math.max(scoreA, scoreB) + " - " + Math.min(scoreA, scoreB) + ")";
+            JOptionPane.showMessageDialog(this, resultadoFinal, "Resultado do Jogo", JOptionPane.INFORMATION_MESSAGE);
+
+            // Define os IDs dos times
+            int timeAId = getTimeIdByName(timeANome);
+            int timeBId = getTimeIdByName(timeBNome);
+
+            // Adiciona vitória ao time vencedor, se houver
+            if (!ganhador.equals("Empate")) {
+                if (ganhador.equals(timeANome)) {
+                    timeDAO.adicionarVitoria(timeAId);
+                } else {
+                    timeDAO.adicionarVitoria(timeBId);
+                }
+            }
+            simularGols(timeAId, timeBId, scoreA, scoreB); // Chama a distribuição de gols
+
+            // Adiciona o jogo ao banco de dados
+            Jogo jogo = new Jogo();
+            jogo.setTimeAId(timeAId); // Define o ID do time A
+            jogo.setTimeBId(timeBId); // Define o ID do time B
+            jogo.setResultado(resultadoFinal);
+            jogo.setData(formattedDate); // Define a data atual
+
+            // Inserir o jogo no banco de dados
+            JogoDAO jogoDAO = new JogoDAO(connection);
+            jogoDAO.create(jogo);
+            loadJogos(); // Recarrega a lista de jogos
+            loadJogadores();
+            loadTimes();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro ao adicionar jogo: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro inesperado: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
-
-        // Adiciona o jogo ao banco de dados
-        Jogo jogo = new Jogo();
-        jogo.setTimeAId(timeAId); // Define o ID do time A
-        jogo.setTimeBId(timeBId); // Define o ID do time B
-        jogo.setResultado(resultadoFinal);
-        jogo.setData(formattedDate); // Define a data atual
-        
-        // Inserir o jogo no banco de dados
-        JogoDAO jogoDAO = new JogoDAO(connection);
-        jogoDAO.create(jogo);
-        loadJogos(); // Recarrega a lista de jogos
-        loadJogadores();
-
-    } catch (SQLException ex) {
-        ex.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Erro ao adicionar jogo: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-    } catch (Exception ex) {
-        ex.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Erro inesperado: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
     }
-}
-
 
 // Método auxiliar para obter o ID do time pelo nome
     private int getTimeIdByName(String timeNome) throws SQLException {
@@ -613,47 +640,67 @@ private void addJogo(ActionEvent e) {
         throw new SQLException("Time não encontrado: " + timeNome); // Lança exceção se o time não for encontrado
     }
 
-   private void simularGols(int timeAId, int timeBId, int golsTimeA, int golsTimeB) throws SQLException {
-    JogadorDAO jogadorDAO = new JogadorDAO(connection);
-    
-    // Obter jogadores de cada time
-    List<Jogador> jogadoresTimeA = jogadorDAO.getJogadoresByTimeId(timeAId);
-    List<Jogador> jogadoresTimeB = jogadorDAO.getJogadoresByTimeId(timeBId);
-    
-    // Identifica o time vencedor
-    List<Jogador> jogadoresVencedores;
-    if (golsTimeA > golsTimeB) {
-        jogadoresVencedores = jogadoresTimeA;
-    } else if (golsTimeB > golsTimeA) {
-        jogadoresVencedores = jogadoresTimeB;
-    } else {
-        jogadoresVencedores = new ArrayList<>(); // Empate, não há vencedores
+    private void simularGols(int timeAId, int timeBId, int golsTimeA, int golsTimeB) throws SQLException {
+        JogadorDAO jogadorDAO = new JogadorDAO(connection);
+        TimeDAO timeDAO = new TimeDAO(connection);
+
+        // Obter jogadores de cada time
+        List<Jogador> jogadoresTimeA = jogadorDAO.getJogadoresByTimeId(timeAId);
+        List<Jogador> jogadoresTimeB = jogadorDAO.getJogadoresByTimeId(timeBId);
+
+        // Obter os nomes dos times
+        Time timeA = timeDAO.getTimeById(timeAId);
+        Time timeB = timeDAO.getTimeById(timeBId);
+
+        // Distribuir gols para o time A
+        Map<Jogador, Integer> golsPorJogadorA = distribuirGolsEntreJogadores(jogadoresTimeA, golsTimeA);
+
+        // Distribuir gols para o time B
+        Map<Jogador, Integer> golsPorJogadorB = distribuirGolsEntreJogadores(jogadoresTimeB, golsTimeB);
+
+        // Exibir os gols de ambos os times
+        StringBuilder mensagem = new StringBuilder();
+        mensagem.append("Gols do jogo\n\n");
+
+        // Gols do Time A
+        mensagem.append("Gols do: ").append(timeA.getNome()).append("\n");
+        for (Map.Entry<Jogador, Integer> entry : golsPorJogadorA.entrySet()) {
+            Jogador jogador = entry.getKey();
+            int gols = entry.getValue();
+            mensagem.append(jogador.getNome()).append(": ").append(gols).append("\n");
+        }
+
+        mensagem.append("\n"); // Espaçamento entre os times
+
+        // Gols do Time B
+        mensagem.append("\nGols do: ").append(timeB.getNome()).append("\n");
+        for (Map.Entry<Jogador, Integer> entry : golsPorJogadorB.entrySet()) {
+            Jogador jogador = entry.getKey();
+            int gols = entry.getValue();
+            mensagem.append(jogador.getNome()).append(": ").append(gols).append("\n");
+        }
+
+        JOptionPane.showMessageDialog(null, mensagem.toString(), "Gols do Jogo", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    // Distribui gols entre os jogadores do time vencedor
-    if (!jogadoresVencedores.isEmpty() && (golsTimeA > 0 || golsTimeB > 0)) {
-        int golsVencedor = (golsTimeA > golsTimeB) ? golsTimeA : golsTimeB; // Gols do time vencedor
-        distribuirGolsEntreJogadores(jogadoresVencedores, golsVencedor);
+    private Map<Jogador, Integer> distribuirGolsEntreJogadores(List<Jogador> jogadores, int totalGols) {
+        Map<Jogador, Integer> golsPorJogador = new HashMap<>();
+        Random random = new Random();
+
+        // Inicializa o mapa com 0 gols para cada jogador
+        for (Jogador jogador : jogadores) {
+            golsPorJogador.put(jogador, 0);
+        }
+
+        // Distribui os gols de forma aleatória entre os jogadores
+        for (int i = 0; i < totalGols; i++) {
+            int indexJogador = random.nextInt(jogadores.size());
+            Jogador jogador = jogadores.get(indexJogador);
+            golsPorJogador.put(jogador, golsPorJogador.get(jogador) + 1);
+        }
+
+        return golsPorJogador;
     }
-}
-
-private void distribuirGolsEntreJogadores(List<Jogador> jogadores, int totalGols) throws SQLException {
-    JogadorDAO jogadorDAO = new JogadorDAO(connection);
-
-    while (totalGols > 0) {
-        // Seleciona aleatoriamente um jogador da lista para receber um gol
-        int jogadorIndex = (int) (Math.random() * jogadores.size());
-        Jogador jogador = jogadores.get(jogadorIndex);
-
-        // Incrementa os gols do jogador e atualiza no banco de dados
-        jogador.setGols(jogador.getGols() + 1);
-        jogadorDAO.updateGols(jogador.getId(), jogador.getGols());
-
-        // Decrementa o total de gols a serem distribuídos
-        totalGols--;
-    }
-}
-
 
     private void deleteJogo(ActionEvent e) {
         int selectedRow = tableJogos.getSelectedRow();
