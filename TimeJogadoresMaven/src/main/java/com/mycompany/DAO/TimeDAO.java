@@ -66,7 +66,7 @@ public class TimeDAO {
     // Leitura de todos os times do banco de dados
     public List<Time> read() throws SQLException {
         List<Time> times = new ArrayList<>();
-        String sql = "SELECT * FROM times";
+        String sql = "SELECT * FROM times ORDER BY vitorias DESC";
         try (PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 Time time = new Time();

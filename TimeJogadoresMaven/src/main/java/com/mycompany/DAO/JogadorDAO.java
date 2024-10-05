@@ -80,7 +80,7 @@ public class JogadorDAO {
  // Leitura de todos os jogadores do banco de dados
 public List<Jogador> read() throws SQLException {
     List<Jogador> jogadores = new ArrayList<>();
-    String sql = "SELECT * FROM jogadores";
+    String sql = "SELECT * FROM jogadores ORDER BY pontos DESC";
     try (PreparedStatement stmt = connection.prepareStatement(sql);
          ResultSet rs = stmt.executeQuery()) {
         while (rs.next()) {
@@ -100,8 +100,8 @@ public List<Jogador> read() throws SQLException {
 }
 
 
-    public void updateGols(int jogadorId, int pontos) throws SQLException {
-        String sql = "UPDATE jogadores SET gols = ? WHERE id = ?";
+    public void atualizarPontos(int jogadorId, int pontos) throws SQLException {
+        String sql = "UPDATE jogadores SET pontos = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, pontos);
             stmt.setInt(2, jogadorId);

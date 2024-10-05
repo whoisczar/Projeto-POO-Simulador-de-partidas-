@@ -23,7 +23,8 @@ public class criarJogadorFrame extends javax.swing.JFrame {
     /**
      * Creates new form criarJogadorFrame
      */
-    public criarJogadorFrame() {
+    public criarJogadorFrame(){
+        this.setTitle("Criar Jogador");
         initComponents();
         loadTimes();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -71,13 +72,13 @@ public class criarJogadorFrame extends javax.swing.JFrame {
         jLabelNacionalidade = new javax.swing.JLabel();
         nacionalidadeTextField = new javax.swing.JTextField();
         jLabelTime = new javax.swing.JLabel();
-        alturaTextField = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         posicaoTextField = new javax.swing.JTextField();
         jLabelNacionalidade1 = new javax.swing.JLabel();
         jComboBoxTime = new javax.swing.JComboBox<>();
         idadejLabel = new javax.swing.JLabel();
-        idadeTextField = new javax.swing.JTextField();
+        alturaTextField = new javax.swing.JTextField();
+        idadeSpinner = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -112,17 +113,6 @@ public class criarJogadorFrame extends javax.swing.JFrame {
 
         jLabelTime.setText("Time");
 
-        alturaTextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                alturaTextFieldFocusLost(evt);
-            }
-        });
-        alturaTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                alturaTextFieldActionPerformed(evt);
-            }
-        });
-
         jButton1.setText("Criar Jogador");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -147,14 +137,9 @@ public class criarJogadorFrame extends javax.swing.JFrame {
 
         idadejLabel.setText("Idade");
 
-        idadeTextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                idadeTextFieldFocusLost(evt);
-            }
-        });
-        idadeTextField.addActionListener(new java.awt.event.ActionListener() {
+        alturaTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                idadeTextFieldActionPerformed(evt);
+                alturaTextFieldActionPerformed(evt);
             }
         });
 
@@ -167,32 +152,29 @@ public class criarJogadorFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(nomeTextField, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(alturaTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
-                            .addComponent(jLabelAltura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelAltura, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(alturaTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabelNacionalidade, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(nacionalidadeTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(posicaoTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+                            .addComponent(posicaoTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
                             .addComponent(jLabelNacionalidade1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jLabelNome)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(idadejLabel)
-                                .addGap(51, 51, 51))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(idadeTextField)
-                                .addGap(6, 6, 6)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(idadejLabel)
+                            .addComponent(idadeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(12, 12, 12)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabelTime)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jComboBoxTime, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)))))
+                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -221,9 +203,9 @@ public class criarJogadorFrame extends javax.swing.JFrame {
                         .addComponent(idadejLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(idadeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jComboBoxTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1)))
+                            .addComponent(jButton1)
+                            .addComponent(idadeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabelTime))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -250,10 +232,6 @@ public class criarJogadorFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_nacionalidadeTextFieldActionPerformed
 
-    private void alturaTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alturaTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_alturaTextFieldActionPerformed
-
     private void posicaoTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_posicaoTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_posicaoTextFieldActionPerformed
@@ -263,120 +241,75 @@ public class criarJogadorFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBoxTimeActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // Captura os dados dos campos de entrada
-        String nome = nomeTextField.getText();
-        String idadeTexto = idadeTextField.getText(); // Armazena o texto da idade
-        String posicao = posicaoTextField.getText();
-        String nacionalidade = nacionalidadeTextField.getText();
-        String alturaTexto = alturaTextField.getText(); // Armazena o texto da altura
-        String timeNome = (String) jComboBoxTime.getSelectedItem(); // Nome do time selecionado
+ // Captura os dados dos campos de entrada
+String nome = nomeTextField.getText();
+int idade = (Integer) idadeSpinner.getValue(); // Captura o valor do JSpinner
+String posicao = posicaoTextField.getText();
+String nacionalidade = nacionalidadeTextField.getText();
+String alturaTexto = alturaTextField.getText(); // Armazena o texto da altura
+String timeNome = (String) jComboBoxTime.getSelectedItem(); // Nome do time selecionado
 
-        // Verifica se o campo de idade está vazio
-        if (idadeTexto.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, insira a idade.", "Erro", JOptionPane.ERROR_MESSAGE);
-            return; // Sai do método
-        }
+// Verifica se o campo de idade é válido
+if (idade <= 0) {
+    JOptionPane.showMessageDialog(this, "Por favor, insira uma idade válida.", "Erro", JOptionPane.ERROR_MESSAGE);
+    return; // Sai do método
+}
 
-        // Verifica se o campo de altura está vazio
-        if (alturaTexto.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, insira a altura.", "Erro", JOptionPane.ERROR_MESSAGE);
-            return; // Sai do método
-        }
+// Verifica se o campo de altura está vazio
+if (alturaTexto.isEmpty()) {
+    JOptionPane.showMessageDialog(this, "Por favor, insira a altura.", "Erro", JOptionPane.ERROR_MESSAGE);
+    return; // Sai do método
+}
 
-        int idade;
-        double altura;
+double altura;
 
-        try {
-            // Converte idade e altura apenas após a validação
-            idade = Integer.parseInt(idadeTexto);
-            altura = Double.parseDouble(alturaTexto);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Por favor, insira valores numéricos válidos para idade e altura.", "Erro", JOptionPane.ERROR_MESSAGE);
-            return; // Sai do método
-        }
+try {
+    // Converte altura apenas após a validação
+    altura = Double.parseDouble(alturaTexto); // Converte o texto da altura para Double
+} catch (NumberFormatException e) {
+    JOptionPane.showMessageDialog(this, "Por favor, insira um valor numérico válido para a altura.", "Erro", JOptionPane.ERROR_MESSAGE);
+    return; // Sai do método
+}
 
-        // Usando a classe de conexão ConexaoBD
-        try (Connection conn = ConexaoBD.getConnection()) {
-            // Prepara a instrução SQL para inserção
-            String sql = "INSERT INTO jogadores (nome, idade, posicao, nacionalidade, altura, time_nome) VALUES (?, ?, ?, ?, ?, ?)"; // Removido o campo salário
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+// Usando a classe de conexão ConexaoBD
+try (Connection conn = ConexaoBD.getConnection()) {
+    // Prepara a instrução SQL para inserção
+    String sql = "INSERT INTO jogadores (nome, idade, posicao, nacionalidade, altura, time_nome) VALUES (?, ?, ?, ?, ?, ?)"; 
+    PreparedStatement pstmt = conn.prepareStatement(sql);
 
-            // Define os valores para os parâmetros da instrução SQL
-            pstmt.setString(1, nome);
-            pstmt.setInt(2, idade);
-            pstmt.setString(3, posicao);
-            pstmt.setString(4, nacionalidade);
-            pstmt.setDouble(5, altura);
-            pstmt.setString(6, timeNome); // Utiliza o nome do time selecionado
+    // Define os valores para os parâmetros da instrução SQL
+    pstmt.setString(1, nome);
+    pstmt.setInt(2, idade);
+    pstmt.setString(3, posicao);
+    pstmt.setString(4, nacionalidade);
+    pstmt.setDouble(5, altura);
+    pstmt.setString(6, timeNome); // Utiliza o nome do time selecionado
 
-            // Executa a inserção
-            pstmt.executeUpdate();
+    // Executa a inserção
+    pstmt.executeUpdate();
 
-            // Notifica que o jogador foi adicionado
-            JOptionPane.showMessageDialog(this, "Jogador adicionado com sucesso!");
-            TimeJogadoresMaven tabelaJogadores = new TimeJogadoresMaven();
-            tabelaJogadores.loadJogadores(); // Atualiza a tabela com os novos dados
-            
-            // Limpa os campos após a inserção
-            nomeTextField.setText("");
-            idadeTextField.setText("");
-            posicaoTextField.setText("");
-            nacionalidadeTextField.setText("");
-            alturaTextField.setText("");
-            jComboBoxTime.setSelectedIndex(0); // Reseta o JComboBox para o primeiro item
+    // Notifica que o jogador foi adicionado
+    JOptionPane.showMessageDialog(this, "Jogador adicionado com sucesso!");
+    TimeJogadoresMaven tabelaJogadores = new TimeJogadoresMaven();
+    tabelaJogadores.loadJogadores(); // Atualiza a tabela com os novos dados
+    
+    // Limpa os campos após a inserção
+    nomeTextField.setText("");
+    idadeSpinner.setValue(0); // Reseta o JSpinner para o valor padrão
+    posicaoTextField.setText("");
+    nacionalidadeTextField.setText("");
+    alturaTextField.setText(""); // Limpa o campo de altura
+    jComboBoxTime.setSelectedIndex(0); // Reseta o JComboBox para o primeiro item
 
-            // Oculta a janela atual
-            
-            this.setVisible(false);
-            tabelaJogadores.loadJogadores(); // Atualiza a tabela com os novos dados
-        } catch (SQLException e) {
-            // Exibe uma mensagem de erro em caso de falha
-            JOptionPane.showMessageDialog(this, "Erro ao adicionar jogador: " + e.getMessage());
-        }
+    // Oculta a janela atual
+    this.setVisible(false);
+    tabelaJogadores.loadJogadores(); // Atualiza a tabela com os novos dados
+} catch (SQLException e) {
+    // Exibe uma mensagem de erro em caso de falha
+    JOptionPane.showMessageDialog(this, "Erro ao adicionar jogador: " + e.getMessage());
+}
+
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void idadeTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idadeTextFieldActionPerformed
-        // TODO add your handling code here:                                             
-
-    }//GEN-LAST:event_idadeTextFieldActionPerformed
-
-    private void alturaTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_alturaTextFieldFocusLost
-        String alturaTexto = alturaTextField.getText();
-
-        // Verifica se o campo está vazio
-        if (alturaTexto.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, insira a altura.", "Erro", JOptionPane.ERROR_MESSAGE);
-            return; // Sai do método
-        }
-
-        try {
-            // Tenta converter a string em um número double
-            double altura = Double.parseDouble(alturaTexto);
-
-            // (Opcional) Aqui você pode adicionar outras verificações, como se a altura está dentro de um intervalo aceitável
-            if (altura <= 0) {
-                JOptionPane.showMessageDialog(this, "A altura deve ser um número positivo.", "Erro", JOptionPane.ERROR_MESSAGE);
-                alturaTextField.requestFocus(); // Volta o foco para o campo
-            }
-        } catch (NumberFormatException e) {
-            // Exibe uma mensagem de erro se a conversão falhar
-            JOptionPane.showMessageDialog(this, "Por favor, insira um valor numérico válido para a altura.", "Erro", JOptionPane.ERROR_MESSAGE);
-            alturaTextField.requestFocus(); // Volta o foco para o campo
-        }
-    }//GEN-LAST:event_alturaTextFieldFocusLost
-
-    private void idadeTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_idadeTextFieldFocusLost
-        // Captura o texto do campo de idade
-        String idadeTexto = idadeTextField.getText();
-
-        // Validação para garantir que o texto digitado é um número
-        if (!(idadeTexto.matches("\\d+"))) { // Verifica se a entrada é um número inteiro
-            JOptionPane.showMessageDialog(this, "Por favor, insira uma idade válida (número inteiro).", "Erro", JOptionPane.ERROR_MESSAGE);
-            idadeTextField.setText(""); // Limpa o campo de texto
-            idadeTextField.requestFocus(); // Foca novamente no campo de idade
-        }
-        // TODO add your handling code here:
-    }//GEN-LAST:event_idadeTextFieldFocusLost
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         this.setVisible(false);      // TODO add your handling code here:
@@ -385,6 +318,10 @@ public class criarJogadorFrame extends javax.swing.JFrame {
     private void formFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusLost
      // TODO add your handling code here:
     }//GEN-LAST:event_formFocusLost
+
+    private void alturaTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alturaTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_alturaTextFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -420,7 +357,7 @@ public class criarJogadorFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField alturaTextField;
-    private javax.swing.JTextField idadeTextField;
+    private javax.swing.JSpinner idadeSpinner;
     private javax.swing.JLabel idadejLabel;
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBoxTime;

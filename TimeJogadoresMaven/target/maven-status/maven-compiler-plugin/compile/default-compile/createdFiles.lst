@@ -6,16 +6,13 @@ DAO\TimeDAO.class
 com\mycompany\timejogadoresmaven\criarJogadorFrame$1.class
 com\mycompany\timejogadoresmaven\criarJogadorFrame$7.class
 MODEL\Time.class
-com\mycompany\timejogadoresmaven\criarJogadorFrame$11.class
 com\mycompany\timejogadoresmaven\criarJogadorFrame.class
 MODEL\Jogo.class
 com\mycompany\timejogadoresmaven\criarJogadorFrame$3.class
 com\mycompany\timejogadoresmaven\criarJogadorFrame$6.class
 com\mycompany\timejogadoresmaven\TimeJogadoresMaven$1.class
-com\mycompany\timejogadoresmaven\criarJogadorFrame$9.class
 com\mycompany\timejogadoresmaven\criarJogadorFrame$2.class
 com\mycompany\timejogadoresmaven\TimeJogadoresMaven.class
-com\mycompany\timejogadoresmaven\criarJogadorFrame$10.class
 com\mycompany\timejogadoresmaven\criarJogadorFrame$5.class
 DAO\JogadorDAO.class
 DAO\JogoDAO.class

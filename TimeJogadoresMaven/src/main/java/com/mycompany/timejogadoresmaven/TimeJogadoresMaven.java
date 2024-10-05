@@ -7,17 +7,18 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
-import MODEL.Time;      // Ajuste o caminho conforme necessário
-import MODEL.Jogador;   // Ajuste o caminho conforme necessário
-import MODEL.Jogo;      // Ajuste o caminho conforme necessário
+import MODEL.Time;      
+import MODEL.Jogador;  
+import MODEL.Jogo;      
 import DAO.TimeDAO;
 import DAO.JogadorDAO;
-import DAO.JogoDAO;  // Certifique-se de que você tem uma classe JogoDAO
+import DAO.JogoDAO;  
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
@@ -90,119 +91,120 @@ public class TimeJogadoresMaven extends JFrame {
             JOptionPane.showMessageDialog(this, "Erro ao conectar ao banco de dados.", "Erro", JOptionPane.ERROR_MESSAGE);
             System.exit(1);
         }
-    }private void initializeUI() {
-    tabbedPane = new JTabbedPane();
+    }
 
-    // Painel de Times
-    panelTimes = new JPanel(new BorderLayout()); // Usando BorderLayout
-    String[] columnNames = {"ID", "Nome", "Vitorias"};
-    tableModelTimes = new DefaultTableModel(columnNames, 0);
-    tableTimes = new JTable(tableModelTimes);
-    JScrollPane scrollPaneTimes = new JScrollPane(tableTimes);
+    private void initializeUI() {
+        tabbedPane = new JTabbedPane();
 
-    // Ajustar larguras das colunas da tabela de Times
-    tableTimes.getColumnModel().getColumn(0).setPreferredWidth(30);  // ID
-    tableTimes.getColumnModel().getColumn(1).setPreferredWidth(200); // Nome
-    tableTimes.getColumnModel().getColumn(2).setPreferredWidth(50);  // Vitórias
+        // Painel de Times
+        panelTimes = new JPanel(new BorderLayout()); // Usando BorderLayout
+        String[] columnNames = {"ID", "Nome", "Vitorias"};
+        tableModelTimes = new DefaultTableModel(columnNames, 0);
+        tableTimes = new JTable(tableModelTimes);
+        JScrollPane scrollPaneTimes = new JScrollPane(tableTimes);
 
-    JButton btnAddTime = new JButton("Adicionar Time");
-    JButton btnEditTime = new JButton("Editar Time");
-    JButton btnDeleteTime = new JButton("Deletar Time");
-    JButton btnReloadTimes = new JButton("Recarregar Tabela");
+        // Ajustar larguras das colunas da tabela de Times
+        tableTimes.getColumnModel().getColumn(0).setPreferredWidth(50);  // ID
+        tableTimes.getColumnModel().getColumn(1).setPreferredWidth(500); // Nome
+        tableTimes.getColumnModel().getColumn(2).setPreferredWidth(50);  // Vitórias
 
-    btnAddTime.addActionListener(this::addTime);
-    btnEditTime.addActionListener(this::editTime);
-    btnDeleteTime.addActionListener(this::deleteTime);
-    btnReloadTimes.addActionListener(this::reloadTimes);
+        JButton btnAddTime = new JButton("Adicionar Time");
+        JButton btnEditTime = new JButton("Editar Time");
+        JButton btnDeleteTime = new JButton("Deletar Time");
+        JButton btnReloadTimes = new JButton("Recarregar Tabela");
 
-    // Criar um painel para os botões
-    JPanel panelButtonsTimes = new JPanel();
-    panelButtonsTimes.add(btnAddTime);
-    panelButtonsTimes.add(btnEditTime);
-    panelButtonsTimes.add(btnDeleteTime);
-    panelButtonsTimes.add(btnReloadTimes);
+        btnAddTime.addActionListener(this::addTime);
+        btnEditTime.addActionListener(this::editTime);
+        btnDeleteTime.addActionListener(this::deleteTime);
+        btnReloadTimes.addActionListener(this::reloadTimes);
 
-    panelTimes.add(panelButtonsTimes, BorderLayout.NORTH); 
-    panelTimes.add(scrollPaneTimes, BorderLayout.CENTER);   
+        // Criar um painel para os botões
+        JPanel panelButtonsTimes = new JPanel();
+        panelButtonsTimes.add(btnAddTime);
+        panelButtonsTimes.add(btnEditTime);
+        panelButtonsTimes.add(btnDeleteTime);
+        panelButtonsTimes.add(btnReloadTimes);
 
-    tabbedPane.addTab("Times", panelTimes);
+        panelTimes.add(panelButtonsTimes, BorderLayout.NORTH);
+        panelTimes.add(scrollPaneTimes, BorderLayout.CENTER);
 
-    // Painel de Jogadores
-    panelJogadores = new JPanel(new BorderLayout());
-    String[] jogadorColumnNames = {"ID", "Nome", "Altura", "Time", "Pontos"};
-    tableModelJogadores = new DefaultTableModel(jogadorColumnNames, 0);
-    tableJogadores = new JTable(tableModelJogadores);
-    JScrollPane scrollPaneJogadores = new JScrollPane(tableJogadores);
+        tabbedPane.addTab("Times", panelTimes);
 
-    // Ajustar larguras das colunas da tabela de Jogadores
-    tableJogadores.getColumnModel().getColumn(0).setPreferredWidth(30);
-    tableJogadores.getColumnModel().getColumn(1).setPreferredWidth(150);
-    tableJogadores.getColumnModel().getColumn(2).setPreferredWidth(70);
-    tableJogadores.getColumnModel().getColumn(3).setPreferredWidth(150);
-    tableJogadores.getColumnModel().getColumn(4).setPreferredWidth(100);
+        // Painel de Jogadores
+        panelJogadores = new JPanel(new BorderLayout());
+        String[] jogadorColumnNames = {"ID", "Nome", "Altura", "Time", "Pontos"};
+        tableModelJogadores = new DefaultTableModel(jogadorColumnNames, 0);
+        tableJogadores = new JTable(tableModelJogadores);
+        JScrollPane scrollPaneJogadores = new JScrollPane(tableJogadores);
 
-    JButton btnAddJogador = new JButton("Adicionar Jogador");
-    JButton btnEditJogador = new JButton("Editar Jogador");
-    JButton btnDeleteJogador = new JButton("Deletar Jogador");
-    JButton btnReloadJogadores = new JButton("Recarregar Tabela");
+        // Ajustar larguras das colunas da tabela de Jogadores
+        tableJogadores.getColumnModel().getColumn(0).setPreferredWidth(66);
+        tableJogadores.getColumnModel().getColumn(1).setPreferredWidth(200);
+        tableJogadores.getColumnModel().getColumn(2).setPreferredWidth(66);
+        tableJogadores.getColumnModel().getColumn(3).setPreferredWidth(200);
+        tableJogadores.getColumnModel().getColumn(4).setPreferredWidth(66);
 
-    btnAddJogador.addActionListener(this::addJogador);
-    btnEditJogador.addActionListener(this::editJogador);
-    btnDeleteJogador.addActionListener(this::deleteJogador);
-    btnReloadJogadores.addActionListener(this::reloadTabela);
+        JButton btnAddJogador = new JButton("Adicionar Jogador");
+        JButton btnEditJogador = new JButton("Editar Jogador");
+        JButton btnDeleteJogador = new JButton("Deletar Jogador");
+        JButton btnReloadJogadores = new JButton("Recarregar Tabela");
 
-    // Criar um painel para os botões
-    JPanel panelButtonsJogadores = new JPanel();
-    panelButtonsJogadores.add(btnAddJogador);
-    panelButtonsJogadores.add(btnEditJogador);
-    panelButtonsJogadores.add(btnDeleteJogador);
-    panelButtonsJogadores.add(btnReloadJogadores);
+        btnAddJogador.addActionListener(this::addJogador);
+        btnEditJogador.addActionListener(this::editJogador);
+        btnDeleteJogador.addActionListener(this::deleteJogador);
+        btnReloadJogadores.addActionListener(this::reloadTabela);
 
-    panelJogadores.add(panelButtonsJogadores, BorderLayout.NORTH);
-    panelJogadores.add(scrollPaneJogadores, BorderLayout.CENTER);
+        // Criar um painel para os botões
+        JPanel panelButtonsJogadores = new JPanel();
+        panelButtonsJogadores.add(btnAddJogador);
+        panelButtonsJogadores.add(btnEditJogador);
+        panelButtonsJogadores.add(btnDeleteJogador);
+        panelButtonsJogadores.add(btnReloadJogadores);
 
-    tabbedPane.addTab("Jogadores", panelJogadores);
+        panelJogadores.add(panelButtonsJogadores, BorderLayout.NORTH);
+        panelJogadores.add(scrollPaneJogadores, BorderLayout.CENTER);
 
-    // Painel de Jogos
-    panelJogos = new JPanel(new BorderLayout());
-    String[] jogoColumnNames = {"ID", "Time A", "Time B", "Data", "Resultado"};
-    tableModelJogos = new DefaultTableModel(jogoColumnNames, 0);
-    tableJogos = new JTable(tableModelJogos);
-    JScrollPane scrollPaneJogos = new JScrollPane(tableJogos);
+        tabbedPane.addTab("Jogadores", panelJogadores);
 
-    // Ajustar larguras das colunas da tabela de Jogos
-    tableJogos.getColumnModel().getColumn(0).setPreferredWidth(25);
-    tableJogos.getColumnModel().getColumn(1).setPreferredWidth(150);
-    tableJogos.getColumnModel().getColumn(2).setPreferredWidth(150);
-    tableJogos.getColumnModel().getColumn(3).setPreferredWidth(80);
-    tableJogos.getColumnModel().getColumn(4).setPreferredWidth(110);
+        // Painel de Jogos
+        panelJogos = new JPanel(new BorderLayout());
+        String[] jogoColumnNames = {"ID", "Time A", "Time B", "Data", "Resultado"};
+        tableModelJogos = new DefaultTableModel(jogoColumnNames, 0);
+        tableJogos = new JTable(tableModelJogos);
+        JScrollPane scrollPaneJogos = new JScrollPane(tableJogos);
 
-    JButton btnAddJogo = new JButton("Adicionar Jogo");
-    JButton btnDeleteJogo = new JButton("Deletar Jogo");
-    JButton btnReloadJogos = new JButton("Recarregar Tabela");
+        // Ajustar larguras das colunas da tabela de Jogos
+        tableJogos.getColumnModel().getColumn(0).setPreferredWidth(30);
+        tableJogos.getColumnModel().getColumn(1).setPreferredWidth(130);
+        tableJogos.getColumnModel().getColumn(2).setPreferredWidth(130);
+        tableJogos.getColumnModel().getColumn(3).setPreferredWidth(60);
+        tableJogos.getColumnModel().getColumn(4).setPreferredWidth(200);
 
-    btnAddJogo.addActionListener(this::addJogo);
-    btnDeleteJogo.addActionListener(this::deleteJogo);
-    btnReloadJogos.addActionListener(this::reloadJogos);
+        JButton btnAddJogo = new JButton("Adicionar Jogo");
+        JButton btnDeleteJogo = new JButton("Deletar Jogo");
+        JButton btnReloadJogos = new JButton("Recarregar Tabela");
 
-    // Criar um painel para os botões
-    JPanel panelButtonsJogos = new JPanel();
-    panelButtonsJogos.add(btnAddJogo);
-    panelButtonsJogos.add(btnDeleteJogo);
-    panelButtonsJogos.add(btnReloadJogos);
+        btnAddJogo.addActionListener(this::addJogo);
+        btnDeleteJogo.addActionListener(this::deleteJogo);
+        btnReloadJogos.addActionListener(this::reloadJogos);
 
-    panelJogos.add(panelButtonsJogos, BorderLayout.NORTH);
-    panelJogos.add(scrollPaneJogos, BorderLayout.CENTER);
+        // Criar um painel para os botões
+        JPanel panelButtonsJogos = new JPanel();
+        panelButtonsJogos.add(btnAddJogo);
+        panelButtonsJogos.add(btnDeleteJogo);
+        panelButtonsJogos.add(btnReloadJogos);
 
-    tabbedPane.addTab("Jogos", panelJogos);
+        panelJogos.add(panelButtonsJogos, BorderLayout.NORTH);
+        panelJogos.add(scrollPaneJogos, BorderLayout.CENTER);
 
-    add(tabbedPane);
+        tabbedPane.addTab("Jogos", panelJogos);
 
-    loadTimes();      // Carrega os times automaticamente
-    loadJogadores();  // Carrega os jogadores automaticamente
-    loadJogos();      // Carrega os jogos automaticamente
-}
+        add(tabbedPane);
 
+        loadTimes();      // Carrega os times automaticamente
+        loadJogadores();  // Carrega os jogadores automaticamente
+        loadJogos();      // Carrega os jogos automaticamente
+    }
 
     private void loadTimes() {
         try {
@@ -244,7 +246,6 @@ public class TimeJogadoresMaven extends JFrame {
                     jogador.getId(),
                     jogador.getNome(),
                     jogador.getAltura(),
-                    jogador.getNacionalidade(),
                     jogador.getTimeNome(),
                     jogador.getPontos()
                 };
@@ -317,72 +318,76 @@ public class TimeJogadoresMaven extends JFrame {
             JOptionPane.showMessageDialog(this, "Nome do time não pode estar vazio.", "Erro", JOptionPane.WARNING_MESSAGE);
         }
     }
+private void editTime(ActionEvent e) {
+    int selectedRow = tableTimes.getSelectedRow();
+    if (selectedRow != -1) {
+        int id = (int) tableModelTimes.getValueAt(selectedRow, 0); // Obtém o ID do time selecionado
+        try {
+            Time time = timeDAO.readById(id);
+            if (time != null) {
+                // Cria o modal
+                JDialog dialog = new JDialog(this, "Editar Time", true);
+                dialog.setLayout(new GridBagLayout());
+                GridBagConstraints gbc = new GridBagConstraints();
+                gbc.fill = GridBagConstraints.HORIZONTAL;
+                gbc.insets = new Insets(10, 10, 10, 10); // Espaçamento entre os componentes
 
-    private void editTime(ActionEvent e) {
-        int selectedRow = tableTimes.getSelectedRow();
-        if (selectedRow != -1) {
-            int id = (int) tableModelTimes.getValueAt(selectedRow, 0); // Obtém o ID do time selecionado
-            try {
-                Time time = timeDAO.readById(id);
-                if (time != null) {
-                    // Cria o modal
-                    JDialog dialog = new JDialog(this, "Editar Time", true);
-                    dialog.setLayout(new GridLayout(6, 2));
+                // Campos de texto para as informações do time
+                JTextField nomeField = new JTextField(time.getNome(), 20); // Ajuste de largura
 
-                    // Campos de texto para as informações do time
-                    JTextField nomeField = new JTextField(time.getNome());
+                // Adiciona os campos ao modal
+                gbc.gridx = 0; gbc.gridy = 0;
+                dialog.add(new JLabel("Nome:"), gbc);
+                gbc.gridx = 1; gbc.gridy = 0;
+                dialog.add(nomeField, gbc);
 
-                    // Adiciona os campos ao modal
-                    dialog.add(new JLabel("Nome:"));
-                    dialog.add(nomeField);
+                // Botões para salvar ou cancelar
+                JButton saveButton = new JButton("Salvar");
+                JButton cancelButton = new JButton("Cancelar");
 
-                    // Botões para salvar ou cancelar
-                    JButton saveButton = new JButton("Salvar");
-                    JButton cancelButton = new JButton("Cancelar");
+                gbc.gridx = 0; gbc.gridy = 1;
+                dialog.add(saveButton, gbc);
+                gbc.gridx = 1; gbc.gridy = 1;
+                dialog.add(cancelButton, gbc);
 
-                    dialog.add(saveButton);
-                    dialog.add(cancelButton);
+                // Ação do botão "Salvar"
+                saveButton.addActionListener(event -> {
+                    try {
+                        String nome = nomeField.getText().trim();
 
-                    // Ação do botão "Salvar"
-                    saveButton.addActionListener(event -> {
-                        try {
-                            String nome = nomeField.getText();
+                        // Atualiza o objeto time
+                        time.setNome(nome);
 
-                            // Atualiza o objeto time
-                            time.setNome(nome);
+                        // Salva as mudanças no banco de dados
+                        timeDAO.update(time);
 
-                            // Salva as mudanças no banco de dados
-                            timeDAO.update(time);
+                        // Atualiza a tabela
+                        loadTimes();
 
-                            // Atualiza a tabela
-                            loadTimes();
+                        // Fecha o modal
+                        dialog.dispose();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(dialog, "Erro ao salvar alterações.", "Erro", JOptionPane.ERROR_MESSAGE);
+                    }
+                });
 
-                            // Fecha o modal
-                            dialog.dispose();
-                        } catch (NumberFormatException ex) {
-                            JOptionPane.showMessageDialog(dialog, "Ano de fundação inválido.", "Erro", JOptionPane.ERROR_MESSAGE);
-                        } catch (SQLException ex) {
-                            ex.printStackTrace();
-                            JOptionPane.showMessageDialog(dialog, "Erro ao salvar alterações.", "Erro", JOptionPane.ERROR_MESSAGE);
-                        }
-                    });
+                // Ação do botão "Cancelar"
+                cancelButton.addActionListener(event -> dialog.dispose());
 
-                    // Ação do botão "Cancelar"
-                    cancelButton.addActionListener(event -> dialog.dispose());
-
-                    // Configurações do modal
-                    dialog.pack();
-                    dialog.setLocationRelativeTo(this); // Centraliza o modal
-                    dialog.setVisible(true); // Exibe o modal
-                }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Erro ao editar time.", "Erro", JOptionPane.ERROR_MESSAGE);
+                // Configurações do modal
+                dialog.pack();
+                dialog.setLocationRelativeTo(this); // Centraliza o modal
+                dialog.setVisible(true); // Exibe o modal
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "Selecione um time para editar.", "Erro", JOptionPane.WARNING_MESSAGE);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Erro ao editar time.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
+    } else {
+        JOptionPane.showMessageDialog(this, "Selecione um time para editar.", "Erro", JOptionPane.WARNING_MESSAGE);
     }
+}
 
     private void deleteTime(ActionEvent e) {
         int selectedRow = tableTimes.getSelectedRow(); // Verifica a linha selecionada na tabela
@@ -422,112 +427,122 @@ public class TimeJogadoresMaven extends JFrame {
         // Torna o JFrame visível
         criarJogadorFrame.setVisible(true);
     }
+private void editJogador(ActionEvent e) {
+    int selectedRow = tableJogadores.getSelectedRow();
 
-    private void editJogador(ActionEvent e) {
-        int selectedRow = tableJogadores.getSelectedRow();
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Selecione um jogador para editar.", "Erro", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
 
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Selecione um jogador para editar.", "Erro", JOptionPane.WARNING_MESSAGE);
+    int id = (int) tableModelJogadores.getValueAt(selectedRow, 0);
+
+    try {
+        Jogador jogador = jogadorDAO.readById(id);
+        if (jogador == null) {
+            JOptionPane.showMessageDialog(this, "Jogador não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        int id = (int) tableModelJogadores.getValueAt(selectedRow, 0);
+        // Criar o modal para edição
+        JDialog modal = new JDialog(this, "Editar Jogador", true);
+        modal.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(10, 10, 10, 10); // Espaçamento entre os componentes
 
-        try {
-            Jogador jogador = jogadorDAO.readById(id);
-            if (jogador == null) {
-                JOptionPane.showMessageDialog(this, "Jogador não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
+        // Campos de edição
+        JTextField nomeField = new JTextField(jogador.getNome(), 20);
+        JTextField alturaField = new JTextField(String.valueOf(jogador.getAltura()), 20);
+
+        // Carrega os times
+        loadTimes();
+        JComboBox<String> timeComboBox = new JComboBox<>();
+
+        // Preenche o ComboBox com os nomes dos times
+        for (int i = 0; i < tableModelTimes.getRowCount(); i++) {
+            String timeNome = (String) tableModelTimes.getValueAt(i, 1);
+            timeComboBox.addItem(timeNome);
+        }
+
+        // Define o time atual do jogador como selecionado no ComboBox
+        timeComboBox.setSelectedItem(jogador.getTimeNome());
+
+        // Adiciona campos ao modal
+        gbc.gridx = 0; gbc.gridy = 0;
+        modal.add(new JLabel("Nome:"), gbc);
+        gbc.gridx = 1; gbc.gridy = 0;
+        modal.add(nomeField, gbc);
+
+        gbc.gridx = 0; gbc.gridy = 1;
+        modal.add(new JLabel("Altura (em metros):"), gbc);
+        gbc.gridx = 1; gbc.gridy = 1;
+        modal.add(alturaField, gbc);
+
+        gbc.gridx = 0; gbc.gridy = 2;
+        modal.add(new JLabel("Time:"), gbc);
+        gbc.gridx = 1; gbc.gridy = 2;
+        modal.add(timeComboBox, gbc);
+
+        // Botão para salvar as alterações
+        JButton saveButton = new JButton("Salvar");
+        saveButton.addActionListener(actionEvent -> {
+            String nome = nomeField.getText().trim();
+            String alturaStr = alturaField.getText().trim();
+            String timeNome = (String) timeComboBox.getSelectedItem();
+
+            if (nome.isEmpty() || alturaStr.isEmpty() || timeNome == null) {
+                JOptionPane.showMessageDialog(modal, "Todos os campos devem ser preenchidos.", "Erro", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            // Criar o modal para edição
-            JDialog modal = new JDialog(this, "Editar Jogador", true);
-            modal.setLayout(new GridLayout(5, 2, 10, 10));
-
-            // Campos de edição
-            JTextField nomeField = new JTextField(jogador.getNome());
-            JTextField alturaField = new JTextField(String.valueOf(jogador.getAltura()));
-
-            // Carrega os times
-            loadTimes();
-            JComboBox<String> timeComboBox = new JComboBox<>();
-
-            // Preenche o ComboBox com os nomes dos times
-            for (int i = 0; i < tableModelTimes.getRowCount(); i++) {
-                String timeNome = (String) tableModelTimes.getValueAt(i, 1);
-                timeComboBox.addItem(timeNome);
+            // Validação da altura
+            double altura;
+            try {
+                altura = Double.parseDouble(alturaStr);
+                if (altura <= 0) {
+                    throw new NumberFormatException();
+                }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(modal, "Altura inválida.", "Erro", JOptionPane.WARNING_MESSAGE);
+                return;
             }
 
-            // Define o time atual do jogador como selecionado no ComboBox
-            timeComboBox.setSelectedItem(jogador.getTimeNome());
+            // Atualiza os dados do jogador
+            jogador.setNome(nome);
+            jogador.setAltura(altura);
+            jogador.setTimeNome(timeNome);
 
-            // Adiciona campos ao modal
-            modal.add(new JLabel("Nome:"));
-            modal.add(nomeField);
+            try {
+                jogadorDAO.update(jogador); // Atualiza no banco de dados
+                JOptionPane.showMessageDialog(modal, "Jogador atualizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                loadJogadores(); // Atualiza a tabela de jogadores
+                modal.dispose(); // Fecha o modal após salvar
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(modal, "Erro ao salvar as alterações.", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        });
 
-            modal.add(new JLabel("Altura (em metros):"));
-            modal.add(alturaField);
+        // Botão para cancelar as alterações
+        JButton cancelButton = new JButton("Cancelar");
+        cancelButton.addActionListener(actionEvent -> modal.dispose());
 
-            modal.add(new JLabel("Time:"));
-            modal.add(timeComboBox);
+        // Adiciona os botões ao modal
+        gbc.gridx = 0; gbc.gridy = 3;
+        modal.add(saveButton, gbc);
+        gbc.gridx = 1; gbc.gridy = 3;
+        modal.add(cancelButton, gbc);
 
-            // Botão para salvar as alterações
-            JButton saveButton = new JButton("Salvar");
-            saveButton.addActionListener(actionEvent -> {
-                String nome = nomeField.getText().trim();
-                String alturaStr = alturaField.getText().trim();
-                String timeNome = (String) timeComboBox.getSelectedItem();
-
-                if (nome.isEmpty() || alturaStr.isEmpty() || timeNome == null) {
-                    JOptionPane.showMessageDialog(modal, "Todos os campos devem ser preenchidos.", "Erro", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-
-                // Validação da altura
-                double altura;
-                try {
-                    altura = Double.parseDouble(alturaStr);
-                    if (altura <= 0) {
-                        throw new NumberFormatException();
-                    }
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(modal, "Altura inválida.", "Erro", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-
-                // Atualiza os dados do jogador
-                jogador.setNome(nome);
-                jogador.setAltura(altura);
-                jogador.setTimeNome(timeNome);
-
-                try {
-                    jogadorDAO.update(jogador); // Atualiza no banco de dados
-                    JOptionPane.showMessageDialog(modal, "Jogador atualizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                    loadJogadores(); // Atualiza a tabela de jogadores
-                    modal.dispose(); // Fecha o modal após salvar
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(modal, "Erro ao salvar as alterações.", "Erro", JOptionPane.ERROR_MESSAGE);
-                }
-            });
-
-            // Botão para cancelar as alterações
-            JButton cancelButton = new JButton("Cancelar");
-            cancelButton.addActionListener(actionEvent -> modal.dispose());
-
-            // Adiciona os botões ao modal
-            modal.add(saveButton);
-            modal.add(cancelButton);
-
-            // Configurações finais do modal
-            modal.setSize(400, 300);
-            modal.setLocationRelativeTo(this); // Centraliza o modal
-            modal.setVisible(true); // Exibe o modal
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Erro ao buscar jogador.", "Erro", JOptionPane.ERROR_MESSAGE);
-        }
+        // Configurações finais do modal
+        modal.setSize(400, 300);
+        modal.setLocationRelativeTo(this); // Centraliza o modal
+        modal.setVisible(true); // Exibe o modal
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Erro ao buscar jogador.", "Erro", JOptionPane.ERROR_MESSAGE);
     }
+}
 
     private void deleteJogador(ActionEvent e) {
         int selectedRow = tableJogadores.getSelectedRow(); // Obtém a linha selecionada
@@ -548,22 +563,20 @@ public class TimeJogadoresMaven extends JFrame {
             JOptionPane.showMessageDialog(this, "Por favor, selecione um jogador para deletar.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-   
-    
-    private void recarregarTodasTabelas (){
-    JOptionPane.showMessageDialog(null, "Tabelas Recarregadas");
-    loadJogadores();
-    loadTimes();
-    loadJogos();
+
+    private void recarregarTodasTabelas() {
+        JOptionPane.showMessageDialog(null, "Tabelas Recarregadas");
+        loadJogadores();
+        loadTimes();
+        loadJogos();
     }
-    
+
     private void reloadTabela(ActionEvent e) {
-           recarregarTodasTabelas();
+        recarregarTodasTabelas();
     }
-     
+
     private void reloadJogos(ActionEvent e) {
-    recarregarTodasTabelas();    
+        recarregarTodasTabelas();
     }
 
     private void reloadTimes(ActionEvent e) {
@@ -643,7 +656,7 @@ public class TimeJogadoresMaven extends JFrame {
                     timeDAO.adicionarVitoria(timeBId);
                 }
             }
-            simularPontos(timeAId, timeBId, scoreA, scoreB); // Chama a distribuição de gols
+            simularPontos(timeAId, timeBId, scoreA, scoreB); // Chama a distribuição de pontos
 
             // Adiciona o jogo ao banco de dados
             Jogo jogo = new Jogo();
@@ -697,13 +710,13 @@ public class TimeJogadoresMaven extends JFrame {
         Time timeA = timeDAO.getTimeById(timeAId);
         Time timeB = timeDAO.getTimeById(timeBId);
 
-        // Distribuir gols para o time A
+        // Distribuir pontos para o time A
         Map<Jogador, Integer> golsPorJogadorA = distribuirPontosEntreJogadores(jogadoresTimeA, golsTimeA);
 
-        // Distribuir gols para o time B
+        // Distribuir pontos para o time B
         Map<Jogador, Integer> golsPorJogadorB = distribuirPontosEntreJogadores(jogadoresTimeB, golsTimeB);
 
-        // Exibir os gols de ambos os times
+        // Exibir os pontos de ambos os times
         StringBuilder mensagem = new StringBuilder();
         mensagem.append("Pontos do jogo\n\n");
 
@@ -711,18 +724,20 @@ public class TimeJogadoresMaven extends JFrame {
         mensagem.append("Pontos do: ").append(timeA.getNome()).append("\n");
         for (Map.Entry<Jogador, Integer> entry : golsPorJogadorA.entrySet()) {
             Jogador jogador = entry.getKey();
-            int gols = entry.getValue();
-            mensagem.append(jogador.getNome()).append(": ").append(gols).append("\n");
+            int pontos = entry.getValue();
+            mensagem.append(jogador.getNome()).append(": ").append(pontos).append("\n");
+            jogadorDAO.atualizarPontos(jogador.getId(), pontos); // Aqui você atualiza os pontos no banco
         }
 
         mensagem.append("\n"); // Espaçamento entre os times
 
-        // Gols do Time B
+        // Pontos do Time B
         mensagem.append("\nPontos do: ").append(timeB.getNome()).append("\n");
         for (Map.Entry<Jogador, Integer> entry : golsPorJogadorB.entrySet()) {
             Jogador jogador = entry.getKey();
-            int gols = entry.getValue();
-            mensagem.append(jogador.getNome()).append(": ").append(gols).append("\n");
+            int pontos = entry.getValue();
+            mensagem.append(jogador.getNome()).append(": ").append(pontos).append("\n");
+            jogadorDAO.atualizarPontos(jogador.getId(), pontos); // Aqui você atualiza os pontos no banco
         }
 
         JOptionPane.showMessageDialog(null, mensagem.toString(), "Pontos do jogo", JOptionPane.INFORMATION_MESSAGE);
@@ -737,18 +752,32 @@ public class TimeJogadoresMaven extends JFrame {
             pontosPorJogador.put(jogador, 0);
         }
 
+        // Calcula a soma total das alturas dos jogadores
+        double somaAlturas = jogadores.stream().mapToDouble(Jogador::getAltura).sum();
+
         // Distribui os pontos de forma aleatória entre os jogadores
         while (totalPontos > 0) {
-            // Escolhe um jogador aleatório
-            int indexJogador = random.nextInt(jogadores.size());
-            Jogador jogador = jogadores.get(indexJogador);
+            // Gera um número aleatório entre 0 e a soma total das alturas (em inteiros)
+            int randomHeight = random.nextInt((int) Math.round(somaAlturas * 100)); // Multiplica por 100 para evitar problemas de arredondamento
+
+            // Escolhe o jogador com base na altura
+            Jogador jogadorSelecionado = null;
+            double acumulador = 0;
+
+            for (Jogador jogador : jogadores) {
+                acumulador += jogador.getAltura() * 100; // Aumenta o acumulador pela altura do jogador (multiplicada por 100)
+                if (acumulador > randomHeight) {
+                    jogadorSelecionado = jogador; // Jogador selecionado com base na altura
+                    break;
+                }
+            }
 
             // Sorteia se o jogador fez uma jogada de 1, 2 ou 3 pontos
             int pontosFeitos = random.nextInt(3) + 1; // Gera um número entre 1 e 3
 
             // Verifica se ainda há pontos suficientes para adicionar
-            if (totalPontos >= pontosFeitos) {
-                pontosPorJogador.put(jogador, pontosPorJogador.get(jogador) + pontosFeitos);
+            if (totalPontos >= pontosFeitos && jogadorSelecionado != null) {
+                pontosPorJogador.put(jogadorSelecionado, pontosPorJogador.get(jogadorSelecionado) + pontosFeitos);
                 totalPontos -= pontosFeitos;
             }
         }
@@ -779,8 +808,6 @@ public class TimeJogadoresMaven extends JFrame {
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(new FlatMacDarkLaf());
-            
-            UIManager.put( "", Color.red );
         } catch (Exception ex) {
             System.err.println("Failed to initialize LaF");
         }
@@ -789,8 +816,5 @@ public class TimeJogadoresMaven extends JFrame {
             frame.setVisible(true);
         });
     }
-    
-
-    
 
 }

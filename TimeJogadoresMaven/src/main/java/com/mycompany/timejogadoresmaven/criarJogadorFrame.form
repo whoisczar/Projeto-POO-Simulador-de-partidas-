@@ -48,9 +48,9 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="nomeTextField" alignment="1" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="alturaTextField" pref="74" max="32767" attributes="0"/>
-                              <Component id="jLabelAltura" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jLabelAltura" min="-2" pref="74" max="-2" attributes="0"/>
+                              <Component id="alturaTextField" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -59,28 +59,23 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="posicaoTextField" pref="279" max="32767" attributes="0"/>
+                              <Component id="posicaoTextField" pref="280" max="32767" attributes="0"/>
                               <Component id="jLabelNacionalidade1" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <Component id="jLabelNome" min="-2" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Component id="idadejLabel" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" attributes="0">
-                                  <Component id="idadeTextField" max="32767" attributes="0"/>
-                                  <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-                              </Group>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="idadejLabel" min="-2" max="-2" attributes="0"/>
+                              <Component id="idadeSpinner" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
+                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jLabelTime" min="-2" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jComboBoxTime" min="-2" pref="277" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="jButton1" pref="115" max="32767" attributes="0"/>
+                                  <Component id="jButton1" pref="116" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -120,9 +115,9 @@
                           <Component id="idadejLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="idadeTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jComboBoxTime" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="idadeSpinner" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Component id="jLabelTime" min="-2" max="-2" attributes="0"/>
@@ -162,12 +157,6 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Time"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="alturaTextField">
-          <Events>
-            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="alturaTextFieldFocusLost"/>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="alturaTextFieldActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButton1">
           <Properties>
@@ -210,11 +199,12 @@
             <Property name="text" type="java.lang.String" value="Idade"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="idadeTextField">
+        <Component class="javax.swing.JTextField" name="alturaTextField">
           <Events>
-            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="idadeTextFieldFocusLost"/>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="idadeTextFieldActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="alturaTextFieldActionPerformed"/>
           </Events>
+        </Component>
+        <Component class="javax.swing.JSpinner" name="idadeSpinner">
         </Component>
       </SubComponents>
     </Container>

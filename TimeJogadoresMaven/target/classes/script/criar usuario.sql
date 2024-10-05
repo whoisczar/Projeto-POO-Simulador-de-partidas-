@@ -34,6 +34,7 @@ CREATE TABLE jogos (
     FOREIGN KEY (time_b_id) REFERENCES times(id) ON DELETE CASCADE
 );
 
+use jogadorestimes;
 INSERT INTO times (nome, vitorias) VALUES
 ('Los Angeles Lakers', 0),
 ('Chicago Bulls', 0),
